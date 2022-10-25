@@ -1,8 +1,10 @@
 package hello.springmvc.basic.request;
 
 
+import hello.springmvc.basic.HelloData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +26,7 @@ public class RequestParamController {
         log.info("username={}, age={}", username, age);
         response.getWriter().write("ok");
     }
+
     /**
      * @RequestParam 사용
      * - 파라미터 이름으로 바인딩
@@ -52,6 +55,7 @@ public class RequestParamController {
         log.info("username={}, age={}", username, age);
         return "ok";
     }
+
     /**
      * @RequestParam 사용
      * String, int 등의 단순 타입이면 @RequestParam 도 생략 가능
@@ -63,13 +67,13 @@ public class RequestParamController {
         log.info("username={}, age={}", username, age);
         return "ok";
     }
+
     /**
-     * @RequestParam.required
-     * /request-param-required -> username이 없으므로 예외
-     *
+     * @RequestParam.required /request-param-required -> username이 없으므로 예외
+     * <p>
      * 주의!
      * /request-param-required?username= -> 빈문자로 통과
-     *
+     * <p>
      * 주의!
      * /request-param-required
      * int age -> null을 int에 입력하는 것은 불가능, 따라서 Integer 변경해야 함(또는 다음에 나오는 defaultValue 사용)
@@ -83,10 +87,10 @@ public class RequestParamController {
         log.info("username={}, age={}", username, age);
         return "ok";
     }
+
     /**
-     * @RequestParam
-     * - defaultValue 사용
-     *
+     * @RequestParam - defaultValue 사용
+     * <p>
      * 참고: defaultValue는 빈 문자의 경우에도 적용
      * /request-param-default?username=
      */
@@ -98,6 +102,7 @@ public class RequestParamController {
         log.info("username={}, age={}", username, age);
         return "ok";
     }
+
     /**
      * @RequestParam Map, MultiValueMap
      * Map(key=value)
@@ -109,6 +114,23 @@ public class RequestParamController {
         log.info("username={}, age={}",
                 paramMap.get("username"),
                 paramMap.get("age"));
+        return "ok";
+    }
+
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    private String modelAttributeV1(@ModelAttribute HelloData helloData) {
+        /* HelloData 모델 객체가 생성되고 파라미터의 값을 바인딩해준다.*/
+
+        log.info("HelloData = {}",helloData);
+        return "ok";
+    }
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    private String modelAttributeV2(HelloData helloData) {
+        /* HelloData 모델 객체가 생성되고 파라미터의 값을 바인딩해준다.*/
+
+        log.info("HelloData = {}",helloData);
         return "ok";
     }
 }
